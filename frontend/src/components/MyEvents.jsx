@@ -28,7 +28,9 @@ function MyEvents() {
   }, []);
 
   useEffect(() => {
-    fetchEvents();
+    if(currUsername){
+      fetchEvents();
+    }    
   }, [currUsername]);
 
   const fetchEvents = () => {

@@ -29,6 +29,7 @@ function LoginPage() {
         const jwtToken = res.headers.authorization;
         if (jwtToken !== null) {
           sessionStorage.setItem('jwt', jwtToken);
+          sessionStorage.setItem('username', user.username);
           login();
           console.log('isAuthenticated');
           navigate('/');

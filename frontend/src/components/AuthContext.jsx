@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     // Perform your logout logic
     setAuthenticated(false);
     sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('username');
     window.location.href = '/';
   };
 

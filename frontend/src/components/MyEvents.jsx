@@ -17,18 +17,26 @@ import { deleteEvent } from '../services/EventService';
 import Swal from 'sweetalert2';
 
 function MyEvents() {
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([]);    
+    const [currUsername, setCurrUsername] = useState ("");
 
 
   useEffect(() => {
-    fetchEvents();
+    const username = sessionStorage.getItem('username');
+    console.log("current user is: ", username)
+    setCurrUsername(username);    
   }, []);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [currUsername]);
 
   const fetchEvents = () => {
     fetch("http://localhost:8080/events")
       .then((response) => response.json())
       .then((data) => {
-        setEvents(data);
+        const filteredEvents = data.filter((event) => event.endUser.username === currUsername);        
+        setEvents(filteredEvents);
       });
     };
 

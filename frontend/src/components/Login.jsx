@@ -21,24 +21,13 @@ function LoginPage() {
   };
 
   const handleLogin = () => {
-    axios
-      .post('http://localhost:8080/api/auth/login', user, {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then((res) => {
-        const jwtToken = res.headers.authorization;
-        if (jwtToken !== null) {
-          sessionStorage.setItem('jwt', jwtToken);
-          sessionStorage.setItem('username', user.username);
-          login();
-          console.log('isAuthenticated');
-          navigate('/');
-        }
-      })
-      .catch((error) => {
-        // Käsittely, jos kirjautuminen epäonnistuu
-        setError('Invalid username or password');
-      });
+    login(user);
+    navigate('/');
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault(); // Prevents the default form submission
+    handleLogin();
   };
 
   return (
@@ -46,7 +35,7 @@ function LoginPage() {
       <Typography variant="h4">Login</Typography>
       {error && <Typography color="error">{error}</Typography>}
 
-      <form>
+      <form onSubmit={handleFormSubmit}>
         <div>
           <TextField
             label="Username"
@@ -70,7 +59,7 @@ function LoginPage() {
           />
         </div>
 
-        <Button variant="contained" color="primary" onClick={handleLogin}>
+        <Button type="submit" variant="contained" color="primary">
           Login
         </Button>
       </form>

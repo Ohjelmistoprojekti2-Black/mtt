@@ -10,16 +10,14 @@ import Button from "@mui/material/Button";
 
 function Weather() {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+  const apiGeoKey = import.meta.env.VITE_GEO_API_KEY;
   const [cityWeather, setCityWeather] = useState(null);
   const [selectedCity, setSelectedCity] = useState("Helsinki");
 
-  
 
   const fetchWeatherData = (city, setWeather) => {
     console.log('apia kutsuttu', city)
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?lang=fi&q=${city}&units=metric&APPID=${apiKey}`
-    )
+    fetch(`http://api.openweathermap.org/data/2.5/weather?lang=fi&q=${city}&units=metric&APPID=${apiKey}`)
       .then((response) => response.json())
       .then((data) => {
         setWeather(data);         
@@ -32,7 +30,7 @@ function Weather() {
   useEffect(() => {
     fetchWeatherData(selectedCity, setCityWeather);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCity]);
+  }, []); //[selectedCity] poistettu, koska renderöi jokaisen merkin muuttuessa ja apikutsumäärä on 1000 päivässä.
 
   const renderWeatherInfo = (weather) => {
     console.log(weather)
@@ -64,7 +62,7 @@ function Weather() {
     const success = (position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-      const geoApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${apiKey}`;
+      const geoApiUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${apiGeoKey}`;
 
       fetch(geoApiUrl)
         .then((res) => res.json())

@@ -17,18 +17,28 @@ import { deleteEvent } from '../services/EventService';
 import Swal from 'sweetalert2';
 
 function MyEvents() {
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([]);    
+    const [currUsername, setCurrUsername] = useState ("");
 
 
   useEffect(() => {
-    fetchEvents();
+    const username = sessionStorage.getItem('username');
+    console.log("current user is: ", username)
+    setCurrUsername(username);    
   }, []);
+
+  useEffect(() => {
+    if(currUsername){
+      fetchEvents();
+    }    
+  }, [currUsername]);
 
   const fetchEvents = () => {
     fetch("http://localhost:8080/events")
       .then((response) => response.json())
       .then((data) => {
-        setEvents(data);
+        const filteredEvents = data.filter((event) => event.endUser && event.endUser.username === currUsername);
+        setEvents(filteredEvents);
       });
     };
 
@@ -42,8 +52,8 @@ function MyEvents() {
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
             cancelButtonText: 'Cancel',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
+            confirmButtonColor: '#FF6969',
+            cancelButtonColor: '#427D9D',
           });
     
           // If the user clicks the "Delete" button in the confirmation dialog
@@ -77,7 +87,7 @@ function MyEvents() {
                                 <Card sx={{ width: 400, boxShadow: 5,  bgcolor:'secondary.light'}} >            
                                     <CardContent sx={{ display: 'flex', justifyContent: 'center', bgcolor:'secondary.main' }} title={event.startDate}>
                                         <Avatar
-                                            sx={{ width: 100, height: 100, bgcolor:'secondary.light', color:'secondary.contrastText' }}
+                                            sx={{ width: 100, height: 100, bgcolor:'secondary.light', color:'secondary.contrastText', fontSize:48 }}
                                             alt={event.category.categoryName[0]}
                                             src={event.category.categoryName[0]}
                                         />
@@ -94,8 +104,8 @@ function MyEvents() {
                                         <Typography><b>Category:</b> {event.category.categoryName}</Typography>
                                     </CardContent>  
                                     <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                                        <IconButton component={Link} to={'/editevent/' + event.eventId }><EditIcon /></IconButton>
-                                        <IconButton onClick={() => handleDeleteEvent(event.eventId)}><DeleteIcon/></IconButton>
+                                        <IconButton component={Link} to={'/editevent/' + event.eventId } sx={{mr:5, border:2, borderColor : "secondary.main"}}><EditIcon /></IconButton>
+                                        <IconButton onClick={() => handleDeleteEvent(event.eventId)} sx={{ border:2, borderColor : "secondary.main", color: "components.danger"}}><DeleteIcon/></IconButton>
                                     </CardActions>
                                 </Card>
                             </Grid>

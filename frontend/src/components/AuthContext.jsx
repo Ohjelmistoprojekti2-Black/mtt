@@ -1,10 +1,20 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';  // Import axios to use it in the login function
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check if JWT token and username exist in session storage
+    const jwtToken = sessionStorage.getItem('jwt');
+    const username = sessionStorage.getItem('username');
+
+    if (jwtToken && username) {
+      setAuthenticated(true);
+    }
+  }, []);
 
   const login = (user) => {  // Accept user as a parameter in the login function
     console.log("called login in authcontext");
@@ -36,6 +46,16 @@ export const AuthProvider = ({ children }) => {
     sessionStorage.removeItem('username');
     window.location.href = '/';
   };
+
+  useEffect(() => {
+    // Check if JWT token and username exist in session storage
+    const jwtToken = sessionStorage.getItem('jwt');
+    const username = sessionStorage.getItem('username');
+
+    if (jwtToken && username) {
+      setAuthenticated(true);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

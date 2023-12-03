@@ -4,6 +4,8 @@
 
 Tiimi: Lairi Piia, [Martinonyte Dovile](https://github.com/dovile-mart), Muittari Samuel, [Myllymäki Aliisa](https://github.com/AliiMyl), Rautiainen Aleksis, [Rusi Romeo](https://github.com/romeorusi)
 
+[Loppuraportti](https://github.com/Ohjelmistoprojekti2-Black/mtt/blob/develop/Docs/loppuraportti.md)
+
 ## Johdanto
 
 <!-- Johdantoon kirjoitetaan lyhyt, ytimekäs kuvaus siitä, mikä on projektin aihe,

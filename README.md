@@ -256,6 +256,7 @@ Projektin testitapauksia luodaan mahdollisimman varhaisessa vaiheessa, muokataan
 Testatut osat:
 * [Sovelluksen käynnistys](https://github.com/Ohjelmistoprojekti2-Black/mtt-backend/blob/develop/src/test/java/com/op2/op2/Op2ApplicationTests.java) <!--[Sovelluksen käynnistys](./src/test/java/com/op2/op2/Op2ApplicationTests.java)-->
 * [EventRepository CRUD metodit](https://github.com/Ohjelmistoprojekti2-Black/mtt-backend/blob/develop/src/test/java/com/op2/op2/RepositoryTests.java) <!--[EventRepository CRUD metodit](./src/test/java/com/op2/op2/RepositoryTests.java)-->
+* [FrontPage haku tapahtuman nimellä](https://github.com/Ohjelmistoprojekti2-Black/mtt/blob/develop/frontend/src/test/FrontPage.test.jsx)
 
 <!--
 ## Asennustiedot

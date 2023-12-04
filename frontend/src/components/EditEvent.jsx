@@ -97,8 +97,8 @@ function EditEvent() {
     e.preventDefault();
   
     try {
-      const response = await axios.post("http://localhost:8080/events", event);
-      console.log("Event saved:", response.data);
+      await axios.put(`http://localhost:8080/events/${eventId}`, event);
+      console.log("Event updated ssuccessfully");
   
       // success 
       Swal.fire({
@@ -110,7 +110,7 @@ function EditEvent() {
   
       navigate("/myEvents");
     } catch (error) {
-      console.error("Error saving event:", error);
+      console.error("Error updating event:", error);
   
       // error 
       Swal.fire({

@@ -38,6 +38,7 @@ function EditEvent() {
           streetAddress: eventData.streetAddress,
           locationId: eventData.location.locationId,
           categoryName: eventData.category.categoryName,
+          endUser: eventData.endUser,
         });
 
       })

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { TextField, Select, MenuItem, Button, FormControl, InputLabel } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 
 function AddEvent() {  
@@ -57,17 +58,31 @@ function AddEvent() {
   const handleSubmit = async (e) => {
     console.log(event);
     e.preventDefault();
-
+  
     try {
-      
       const response = await axios.post("http://localhost:8080/events", event);
       console.log("Event saved:", response.data);
+  
+      // success
+      Swal.fire({
+        title: 'Success!',
+        text: 'Event has been added successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+  
       navigate("/myEvents");
-      
     } catch (error) {
       console.error("Error saving event:", error);
+  
+      // error
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while saving the event.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
-    
   };
 
   return (

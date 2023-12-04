@@ -372,20 +372,14 @@ function FrontPage() {
             <TableBody>
               {filteredEvents.map((event, index) => (
                 <React.Fragment key={index}>
-
-                <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell component="th" scope="row">
-                    {event.eventName}
-                  </TableCell>
-                  <TableCell align="right">
-                      <TableRow>{event.startDate}</TableRow>
-                  <TableRow>{event?.endDate ||'-'}</TableRow>
+                  <TableRow key={index} sx={{ border: 0  }}>
+                    <TableCell component="th" scope="row">{event.eventName}</TableCell>
+                    <TableCell align="right">{event.startDate}<br/>{event?.endDate ||'-'}</TableCell>
+                    <TableCell align="right">{event.location?.city || event.location || '-'}</TableCell>
+                    <TableCell align="right">{event.category?.categoryName || event.category || '-'}</TableCell>
+                    <TableCell align="right">
+                      <Button onClick={() => handleExpandClick(event.eventId)}>{expandedEventId === event.eventId ? 'Close Details' : 'View Details'}</Button>
                     </TableCell>
-                  <TableCell align="right">{event.location?.city || event.location || '-'}</TableCell>
-                  <TableCell align="right">{event.category?.categoryName || event.category || '-'}</TableCell>
-                  <TableCell align="right">
-                    <Button onClick={() => handleExpandClick(event.eventId)}>{expandedEventId === event.eventId ? 'Close Details' : 'View Details'}</Button>
-                  </TableCell>
                   </TableRow>
                   {expandedEventId === event.eventId && (
                     <TableRow>

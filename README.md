@@ -27,7 +27,7 @@ Käyttäjien lisäämien tapahtumien lisäksi sovellukseen haetaan tapahtumia my
 
 #### Projektin toteutuksessa käytettävät teknologiat: 
 - Spring Boot Java-pohjainen sovelluskehys 
-- H2-tietokanta datan käsittelyyn.
+- H2-tietokanta datan käsittelyyn ja julkaisussa käytetään postreSQL 15
 - Käyttöliittymän toteutus alussa Thymeleaf:llä ja JavaScript:lla, myöhemmässä vaiheessa React-kirjastoa käyttäen.
 - Hyödynnämme avointa dataa muun muassa säätietojen, tapahtumien ja paikkojen hakemiseen.
 - Päätelaitteet sovelluksen käyttöön: tietokone, tabletti, älypuhelin
@@ -169,12 +169,12 @@ attribuuttien (kentät/sarakkeet) listausta ja lyhyttä kuvausta esim. tähän t
 
 **Relaatiokaavio**
 
-<img width="352" alt="relaatiokaavio v1" src="Docs/tietokanta/relaatiokaavio_v4.png">
+<img width="352" alt="relaatiokaavio v1" src="Docs/tietokanta/relaatiokaavio_v5.png">
 
 
 **Javakaavio**
 
-<img width="643" alt="javakaavio v1" src="Docs/tietokanta/javakaavio_v4.png">
+<img width="643" alt="javakaavio v1" src="Docs/tietokanta/Javakaavio_v5.png">
 
 
 ## Tietohakemisto
@@ -190,6 +190,7 @@ attribuuttien (kentät/sarakkeet) listausta ja lyhyttä kuvausta esim. tähän t
 >description | varchar(100) || Tapahtuman kuvaus |
 >price | decimal || Hinta |
 >streetAddress | varchar(100) || Tapahtuman sijainti, katuosoite |
+>indoorEvent | Boolean || Järjestetäänkö tapahtuma sisätiloissa |
 >locationId | int FK||Tapahtuman sijainti, kaupunki ja postinumero, viittaus [_location_](#location)-tauluun|
 >categoryName | varchar(20) FK||Tapahtuman kategoria, viittaus [_category_](#category)-tauluun|
 >username | varchar(15) FK||Tapahtuman luoneen käyttäjän id, viittaus [_enduser_](#enduser)-tauluun|
@@ -207,15 +208,18 @@ attribuuttien (kentät/sarakkeet) listausta ja lyhyttä kuvausta esim. tähän t
 > _Kategoria (category) tarkoittaa ryhmää, johon kuuluu samanlaisia objekteja tai asioita. Tässä projektissa Kategoria on tapa jakaa tapahtumia samantyylisiin luokkiin._
 >Kenttä |Tyyppi |Pakollisuus|Kuvaus |
 >---|---|---|---|
->categoryName |varchar(20) PK |not null | Kategorian nimi |
->description |varchar(100)|| Kategorian kuvaus |
+>categoryName |varchar(30) PK | not null | Kategorian nimi |
+>description |varchar| not null | Kategorian kuvaus |
 
 >### **EndUser**
 > _Käyttäjä (EndUser) viittaa yksittäiseen ihmiseen, joka käyttää sovellusta._
 >Kenttä |Tyyppi |Pakollisuus|Kuvaus |
 >---|---|---|---|
->username |varchar(15) PK |not null | Henkilön sovelluksessa käyttämä käyttäjänimi |
->password |varchar(20)|not null | Käyttäjän tilin salasana |
+>userId |Long PK |not null | Käyttäjän id |
+>username |varchar(15) | not null | Henkilön sovelluksessa käyttämä käyttäjänimi |
+>password |varchar(20)| not null | Käyttäjän tilin salasana |
+>email |varchar(20)| not null | Käyttäjän tilin sähköpostiosoite |
+>role |varchar(20)|| Käyttäjän rooli |
 ---
 
 <!--

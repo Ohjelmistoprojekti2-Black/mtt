@@ -166,6 +166,10 @@ Käyttöliittymän prototyyppi on toteutettu [Figmalla](https://www.figma.com/fi
 * Kirjatuneen käyttäjän etusivu, omat tapahtumat sekä tapahtuman lisäys ja muokkaus.
 <img width="643" alt="frontpage_myevents_v1" src="Docs/kayttoliittyma/frontpageplusmyevents.png">
 
+* Tapahtumien suodatus pääsivun kautta.
+<img width="643" alt="eventfilter_v1" src="Docs/kayttoliittyma/eventfilter.png">
+
+
 ## Tietokanta
 
 <!-- Järjestelmään säilöttävä ja siinä käsiteltävät tiedot ja niiden väliset suhteet

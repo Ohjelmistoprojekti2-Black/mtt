@@ -54,7 +54,7 @@
                     </td>
                     <td>
                         <span th:if="${event.category != null}"
-                        th:text="${event.category}"></span>
+                        th:text="${event.category.categoryName}"></span>
                     </td>
 
                     <td th:text="${event.indoorEvent ? 'Yes' : 'No'}"></td>

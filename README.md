@@ -28,13 +28,14 @@ Käyttäjien lisäämien tapahtumien lisäksi sovellukseen haetaan tapahtumia my
 #### Projektin toteutuksessa käytettävät teknologiat: 
 - Spring Boot Java-pohjainen sovelluskehys 
 - H2-tietokanta datan käsittelyyn ja julkaisussa käytetään postreSQL 15
-- Käyttöliittymän toteutus alussa Thymeleaf:llä ja JavaScript:lla, myöhemmässä vaiheessa React-kirjastoa käyttäen.
-- Hyödynnämme avointa dataa muun muassa säätietojen, tapahtumien ja paikkojen hakemiseen.
-- Päätelaitteet sovelluksen käyttöön: tietokone, tabletti, älypuhelin
+- Käyttöliittymän toteutus backendissä Thymeleaf:llä ja JavaScript:lla sekä frontend React-kirjastoa käyttäen.
+- Hyödynnämme avointa dataa muun muassa säätietojen, tapahtumien ja paikkojen hakemiseen, käyttäjän paikantamiseen.
+- Päätelaitteet sovelluksen käyttöön: tietokone, tabletti, älypuhelin.
+- Autentikoinnissa on käytetty Spring Securityä sekä tiedon turvalliseen siirtämiseen palvelimen ja käyttäjän laitteen välillä JSON Web Tokenia (JWT), joka siirtää tietoa luotettavasti ja turvallisesti JSON-muodossa.
 
 #### Ympäristömuuttujat:
 
-#### _-Backend:_
+#### _Backend:_
 
 Tämän projektin kehitysvaiheessa jokaisella kehittäjällä on oma H2-tietokanta omalla koneellaan. Tietokannan nimi, käyttäjätunnus ja salasana ovat salattuja *env.properties*-tiedostossa eikä sitä näy tässä repositoriossa. Nämä tiedot ovat välttämättömiä sovelluksen oikean toiminnan kannalta. Seuraavaksi on ohjeet tarvittaviin muutoksiin:
 
@@ -60,9 +61,9 @@ spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWORD}
 ```
 
-#### _-Frontend:_
+#### _Frontend:_
 
-Sovellus käyttää OpenWeatherMap-palvelua säätietojen hakemiseen. Tämän takia tarvitaan API-avainta, joka toimii todentamistiedostona sovelluksen ja OpenWeatherMapin välillä. API-avain mahdollistaa sovelluksen saada reaaliaikaisia säätietoja eri kaupungeista.
+Sovellus käyttää OpenWeatherMap-palvelua säätietojen ja käyttäjän sijainnin hakemiseen. Tämän takia tarvitaan API-avainta, joka toimii todentamistiedostona sovelluksen ja OpenWeatherMapin välillä. API-avain mahdollistaa sovelluksen saada reaaliaikaisia säätietoja eri kaupungeista sekä paikantaa käyttäjän laitteen sijainnin (käyttäjän luvalla).
 
 *1.* Luo **.env**-niminen tiedosto projektin *frontend*-kansioon.
 
@@ -71,14 +72,16 @@ Sovellus käyttää OpenWeatherMap-palvelua säätietojen hakemiseen. Tämän ta
 .env
 ```
 
-*3.* Muokkaa **.env**-tiedostoa ja tallenna siihen OpenWeatherMapin API-avain: 
+*3.* Muokkaa **.env**-tiedostoa ja tallenna siihen OpenWeatherMapin API-avaimet: 
 ```
 VITE_WEATHER_API_KEY=your_api_key
+VITE_GEO_API_KEY=your_api_key
 ```
 
-Sovelluksen *frontend/src/components*-kansiossa **Weather.jsx**-tiedossa oleva _Weather_-komponentti käyttää **.env**-tiedostossa määriteltyä API-avaita:
+Sovelluksen *frontend/src/components*-kansiossa **Weather.jsx**-tiedossa oleva _Weather_-komponentti käyttää **.env**-tiedostossa määriteltyjä API-avaimia:
 ```
 const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+const apiGeoKey = import.meta.env.VITE_GEO_API_KEY;
 ```
 ### Swagger-UI 
 REST-dokumentaatio löytyy osoitteesta:
@@ -255,37 +258,40 @@ Tänne kirjataan myös lopuksi järjestelmän tunnetut ongelmat, joita ei ole ko
 -->
 Projektin aikana sovelluksen oikea toiminta varmistetaan testaamalla koodin toiminnallisuuksia jokaisessa kehitysvaiheessa. Jokainen tiimin jäsen tehtyään muutoksia koodiin testaa paikallisesti koodin toimivuuden ennen jakamista yhteiseen projektiin.
 
-Projektin testitapauksia luodaan mahdollisimman varhaisessa vaiheessa, muokataan tarpeen mukaan ja dokumentoidaan. 
+Projektin testitapauksia luodaan mahdollisimman varhaisessa vaiheessa, muokataan tarpeen mukaan.
+
 
 Testatut osat:
-* [Sovelluksen käynnistys](https://github.com/Ohjelmistoprojekti2-Black/mtt-backend/blob/develop/src/test/java/com/op2/op2/Op2ApplicationTests.java) <!--[Sovelluksen käynnistys](./src/test/java/com/op2/op2/Op2ApplicationTests.java)-->
+
 * [EventRepository CRUD metodit](https://github.com/Ohjelmistoprojekti2-Black/mtt-backend/blob/develop/src/test/java/com/op2/op2/RepositoryTests.java) <!--[EventRepository CRUD metodit](./src/test/java/com/op2/op2/RepositoryTests.java)-->
 * [FrontPage haku tapahtuman nimellä](https://github.com/Ohjelmistoprojekti2-Black/mtt/blob/develop/frontend/src/test/FrontPage.test.jsx)
+* REST-rajapinta Postmanilla
 
-<!--
+
 ## Asennustiedot
 
-Järjestelmän asennus on syytä dokumentoida kahdesta näkökulmasta:
+Järjestelmän kehitysympäristö voidaan rakentaa toiseen koneeseen kloonaamalla koodi githubista sekä asentamalla frontend-kansiossa riippuvuudet komennolla
 
--   järjestelmän kehitysympäristö: miten järjestelmän kehitysympäristön saisi
-    rakennettua johonkin toiseen koneeseen
+```npm install```
 
--   järjestelmän asentaminen tuotantoympäristöön: miten järjestelmän saisi
-    asennettua johonkin uuteen ympäristöön.
+Sovelluksen salaiset API-avaimet tallentamalla _.env_ ja _env.properties_ tiedostoihin, jotka ovat dokumentoitu Ympäristömuuttujat-osiossa.
 
-Asennusohjeesta tulisi ainakin käydä ilmi, miten käytettävä tietokanta ja
-käyttäjät tulee ohjelmistoa asentaessa määritellä (käytettävä tietokanta,
-käyttäjätunnus, salasana, tietokannan luonti yms.).
+
 
 ## Käynnistys- ja käyttöohje
 
-Tyypillisesti tässä riittää kertoa ohjelman käynnistykseen tarvittava URL sekä
-mahdolliset kirjautumiseen tarvittavat tunnukset. Jos järjestelmän
-käynnistämiseen tai käyttöön liittyy joitain muita toimenpiteitä tai toimintajärjestykseen liittyviä asioita, nekin kerrotaan tässä yhteydessä.
+Sovelluksen backend käynnistetään esim. VSCode:ssa asentamalla Spring Boot Dashboard lisäosa ja käyttämällä sen ohjeiden mukaisesti.  
+Selaimessa sen saa auki osoiteessa http://localhost:8080 
 
-Usko tai älä, tulet tarvitsemaan tätä itsekin, kun tauon jälkeen palaat
-järjestelmän pariin !
+Sovelluksen frontend käynnistetään frontend-kansiossa komennolla 
+
+```npm run dev``` 
+
+Selaimessa sen saa auki osoiteessa http://localhost:5173 
 
 -----
+Tämä projekti on lisensoitu [GNU GPL](https://github.com/Ohjelmistoprojekti2-Black/mtt/blob/main/LICENSE.md) ehtojen mukaisesti.
+<!--
+
 [Dokumentin pohjan lähde](https://github.com/mruonavaara/projektikurssi)
 -->

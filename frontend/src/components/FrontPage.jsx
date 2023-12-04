@@ -158,9 +158,8 @@ function FrontPage() {
           console.log("Espoo apiData: ", apiData);
           if (apiData.data && apiData.data.length > 0) {
             const apiEspooEvents = apiData.data.map((eventData) => {
-              const startDate = new Date(eventData.start_time);
-              const endDate = eventData.end_time ? new Date(eventData.end_time) : null;
-
+              const formattedStartDate = formatDateTime(eventData.start_time);
+              const formattedEndDate = formatDateTime(eventData.end_time);
               // Tarkista, onko tapahtuma ilmainen
               const isFree = eventData.offers && eventData.offers.length > 0 && eventData.offers[0].is_free;
               // Aseta hinta sen mukaan, onko ilmainen vai ei
@@ -173,20 +172,8 @@ function FrontPage() {
               return {
                 eventId: eventData.id,
                 eventName: eventData.name.fi,
-                startDate: startDate.toLocaleDateString('fi-FI', {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }),
-                endDate: endDate ? endDate.toLocaleDateString('fi-FI', {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }) : null,
+                startDate: formattedStartDate,
+                endDate: formattedEndDate,
                 price: eventPrice,
                 description: eventData.short_description.fi, //short_description vai molemmat?
                 location: eventData.location.divisions[0].name.fi,
@@ -376,8 +363,7 @@ function FrontPage() {
             <TableHead>
               <TableRow>
                 <TableCell>Event name</TableCell>
-                <TableCell align="right">Starts</TableCell>
-                <TableCell align="right">Ends</TableCell>
+                <TableCell align="left">Date, time</TableCell>
                 <TableCell align="right">City</TableCell>
                 <TableCell align="right">Category</TableCell>
                 <TableCell align="right"></TableCell>
@@ -391,10 +377,12 @@ function FrontPage() {
                   <TableCell component="th" scope="row">
                     {event.eventName}
                   </TableCell>
-                  <TableCell align="right">{event.startDate}</TableCell>
-                  <TableCell align="right">{event?.endDate ||'-'}</TableCell>
-                  <TableCell align="right">{event.location?.city || event.location || 'N/A'}</TableCell>
-                  <TableCell align="right">{event.category?.categoryName || event.category || 'N/A'}</TableCell>
+                  <TableCell align="right">
+                      <TableRow>{event.startDate}</TableRow>
+                  <TableRow>{event?.endDate ||'-'}</TableRow>
+                    </TableCell>
+                  <TableCell align="right">{event.location?.city || event.location || '-'}</TableCell>
+                  <TableCell align="right">{event.category?.categoryName || event.category || '-'}</TableCell>
                   <TableCell align="right">
                     <Button onClick={() => handleExpandClick(event.eventId)}>{expandedEventId === event.eventId ? 'Close Details' : 'View Details'}</Button>
                   </TableCell>
@@ -404,10 +392,10 @@ function FrontPage() {
                       <TableCell colSpan={1}></TableCell>
                       <TableCell colSpan={2}>
                         <b>Price:</b> {event.price}<br />
-                        <b>Address:</b> {event.streetAddress + ' ' + event.location.city || event.location.city || 'N/A'}
+                        <b>Address:</b> {event.streetAddress || '-'}
                       </TableCell>
                       <TableCell colSpan={3}>
-                        <b>Description:</b> {event.description || 'N/A'}
+                        <b>Description:</b> {event.description || '-'}
                     </TableCell>
                   </TableRow>
                 )}

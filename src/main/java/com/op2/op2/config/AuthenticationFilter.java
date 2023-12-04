@@ -29,7 +29,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         System.out.println("JWT ON " + jws);
         if (jws != null) {
             // Verify token and get user
-                        System.out.println("JUKKA IS ");
             String user = jwtService.getAuthUser(request);
             System.out.println("USER IS "+ user);
             // Authenticate

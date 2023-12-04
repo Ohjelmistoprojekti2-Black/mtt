@@ -35,16 +35,33 @@ function RegisterPage() {
         navigate('/'); // Redirect to the home page or another route
       })
       .catch((error) => {
+        // Handle registration error
+        console.error('Registration failed:', error);
         if (error.response) {
           console.error('Registration failed with status code', error.response.status);
           console.error('Error details:', error.response.data);
 
+          // Check if error.response.data is an array
+          const errorMessages = Array.isArray(error.response.data)
+            ? error.response.data
+            : [error.response.data];
+
+          // Modify the error message format
+          const formattedError = errorMessages
+            .map(errorMessage => {
+              // Use RegExp to remove "register.request." and trim the string
+              return errorMessage.replace(/register\.request\./g, "").trim();
+            })
+            .join('\n');;
+
+          setError(formattedError);
           // Handle other error scenarios
         } else {
           console.error('Error occurred:', error.message);
         }
       });
   };
+
 
   return (
     <div>

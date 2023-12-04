@@ -1,6 +1,10 @@
+[![CI](https://github.com/Ohjelmistoprojekti2-Black/mtt/actions/workflows/ci.yml/badge.svg)](https://github.com/Ohjelmistoprojekti2-Black/mtt/actions/workflows/ci.yml)
+
 # "Mitä tänään tehtäisiin?"
 
-Tiimi: [Lairi Piia](https://github.com/piialairi), [Martinonyte Dovile](https://github.com/dovile-mart), Muittari Samuel, [Myllymäki Aliisa](https://github.com/AliiMyl), Rautiainen Aleksis, [Rusi Romeo](https://github.com/romeorusi)
+Tiimi: [Lairi Piia](https://github.com/piialairi), [Martinonyte Dovile](https://github.com/dovile-mart), [Muittari Samuel](https://github.com/samuelmuittari), [Myllymäki Aliisa](https://github.com/AliiMyl), [Rautiainen Aleksis](https://github.com/aleraut), [Rusi Romeo](https://github.com/romeorusi)
+
+[Loppuraportti](https://github.com/Ohjelmistoprojekti2-Black/mtt/blob/develop/Docs/loppuraportti.md)
 
 ## Johdanto
 
@@ -140,7 +144,7 @@ Jos näkymän tarkoitus ei ole itsestään selvä, se pitää kuvata lyhyesti.
 
 Käyttöliittymän prototyyppi on toteutettu [Figmalla](https://www.figma.com/file/MbKIatc8buUi5PDbG2eMug/Mit%C3%A4-t%C3%A4n%C3%A4%C3%A4n-teht%C3%A4isiin%3F?type=design&node-id=0-1&mode=design&t=KFWWk05WZ1VpIDNx-0).
 
-### Käyttöliittymä toteutettu Thymeleafilla
+### Thymeleaf käyttöliittymä
 
 * Tapahtumalista, uuden tapahtuman luonti, siirtymä sijaintilistalle, siirtymä kategorialistalle.
 <img width="643" alt="eventlist_v1" src="Docs/kayttoliittyma/eventlist.jpg">
@@ -156,6 +160,18 @@ Käyttöliittymän prototyyppi on toteutettu [Figmalla](https://www.figma.com/fi
 
 * Kategorialista, uuden kategorian luonti ja poisto.
 <img width="643" alt="categorylist_v1" src="Docs/kayttoliittyma/categorylist.jpg">
+
+### React käyttöliittymä
+
+* Etusivu ilman kirjautumista, käyttäjän kirjautuminen- ja rekisteröinti sivut.
+<img width="643" alt="frontpage_v1" src="Docs/kayttoliittyma/frontpage.png">
+
+* Kirjatuneen käyttäjän etusivu, omat tapahtumat sekä tapahtuman lisäys ja muokkaus.
+<img width="643" alt="frontpage_myevents_v1" src="Docs/kayttoliittyma/frontpageplusmyevents.png">
+
+* Tapahtumien suodatus pääsivun kautta.
+<img width="643" alt="eventfilter_v1" src="Docs/kayttoliittyma/eventfilter.png">
+
 
 ## Tietokanta
 

@@ -60,17 +60,6 @@ public class CategoryRestController {
     public @ResponseBody Category saveCategoryRest(@RequestBody Category category){
         return categoryRepo.save(category);
     }
-/* 
-    @DeleteMapping({ "/categories/{name}" })
-    void deleteCategory(@PathVariable("name") String categoryName) {
-        log.info("Category has been marked as deleted: " + categoryName);
-        try {
-            categoryRepo.deleteById(categoryName);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find category with name " + categoryName);
-        }
-    }
-*/
 
     @DeleteMapping("/categories/{name}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

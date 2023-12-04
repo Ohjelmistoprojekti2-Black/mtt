@@ -158,8 +158,8 @@ function FrontPage() {
           console.log("Espoo apiData: ", apiData);
           if (apiData.data && apiData.data.length > 0) {
             const apiEspooEvents = apiData.data.map((eventData) => {
-              const formattedStartDate = formatDateTime(eventData.start_time);
-              const formattedEndDate = formatDateTime(eventData.end_time);
+              const startDate = new Date(eventData.start_time);
+              const endDate = eventData.end_time ? new Date(eventData.end_time) : null;
 
               // Tarkista, onko tapahtuma ilmainen
               const isFree = eventData.offers && eventData.offers.length > 0 && eventData.offers[0].is_free;
@@ -173,8 +173,20 @@ function FrontPage() {
               return {
                 eventId: eventData.id,
                 eventName: eventData.name.fi,
-                startDate: formattedStartDate,
-                endDate: formattedEndDate,
+                startDate: startDate.toLocaleDateString('fi-FI', {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                }),
+                endDate: endDate ? endDate.toLocaleDateString('fi-FI', {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                }) : null,
                 price: eventPrice,
                 description: eventData.short_description.fi, //short_description vai molemmat?
                 location: eventData.location.divisions[0].name.fi,
@@ -256,14 +268,40 @@ function FrontPage() {
         setFilteredEvents(events); // Näytä kaikki tapahtumat, jos filtteriarvo on tyhjä
       } else {
         const filtered = events.filter((event) => {
-          const startDate = new Date(event.startDate); // Olettaen että event.startDate on muotoa "yyyy-MM-dd"
-          const searchDate = new Date(keyword); // Olettaen että keyword on muotoa "yyyy-MM-dd"
-          const endDate = new Date(event.endDate); // Olettaen että keyword on muotoa "yyyy-MM-dd"
-          startDate.setHours(0, 0, 0, 0);
+          //   console.log("events: ", events)
+
+          const searchDate = new Date(keyword);//Fri Dec 01 2023 02:00:00 GMT+0200 (Itä-Euroopan normaaliaika)  
+
+          const parseCustomDateFormat = (dateString) => {
+            const parts = dateString.split(/[. :]/); // Split by dot, space, or colon
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // Months are zero-based in JavaScript
+            const year = parseInt(parts[2], 10);
+            const hours = parseInt(parts[3], 10);
+            const minutes = parseInt(parts[4], 10);
+          
+            return new Date(year, month, day, hours, minutes);
+          };
+          /*console.log("1 -> :", keyword)
+          console.log("2 -> :", event.startDate)
+          console.log("3 -> :", event.endDate)
+          */
+          const startDate = parseCustomDateFormat(event.startDate);
+          const endDate = parseCustomDateFormat(event.endDate);
+
+          /*console.log("1-formatted:", searchDate)
+          console.log("2-formatted::",startDate)
+          console.log("3-formatted::", endDate)
+          */
           searchDate.setHours(0, 0, 0, 0);
-          endDate.setHours(23, 59, 59, 999)
-          return ((startDate <= searchDate && searchDate <= endDate) ||
-            startDate.getTime() === searchDate.getTime());  //vertallaan päivämääriä ilman aikaa
+          startDate.setHours(0, 0, 0, 0);
+          if (endDate) {
+            endDate.setHours(0, 0, 0, 0)
+          }
+          return (
+            (startDate <= searchDate && (!endDate || searchDate <= endDate)) ||
+            startDate.getTime() === searchDate.getTime()    //vertallaan päivämääriä ilman aikaa
+          );
         });
         setFilteredEvents(filtered);
       }

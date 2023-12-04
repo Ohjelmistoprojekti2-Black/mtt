@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { TextField, Select, MenuItem, Button, FormControl, InputLabel } from "@mui/material";
+import Swal from 'sweetalert2';
 
 function EditEvent() {
     const navigate = useNavigate();
@@ -92,17 +93,32 @@ function EditEvent() {
   
 
   const handleSubmit = async (e) => {
-    console.log(event)
+    console.log(event);
     e.preventDefault();
-
+  
     try {
-      // Send a PUT request to update the event data      
       await axios.put(`http://localhost:8080/events/${eventId}`, event);
-      console.log("Event updated successfully");
-      navigate("/myEvents");      
+      console.log("Event updated ssuccessfully");
+  
+      // success 
+      Swal.fire({
+        title: 'Success!',
+        text: 'Event has been added successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+  
+      navigate("/myEvents");
     } catch (error) {
       console.error("Error updating event:", error);
-      
+  
+      // error 
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while saving the event.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 

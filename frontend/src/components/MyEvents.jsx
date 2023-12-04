@@ -28,14 +28,16 @@ function MyEvents() {
   }, []);
 
   useEffect(() => {
-    fetchEvents();
+    if(currUsername){
+      fetchEvents();
+    }    
   }, [currUsername]);
 
   const fetchEvents = () => {
     fetch("http://localhost:8080/events")
       .then((response) => response.json())
       .then((data) => {
-        const filteredEvents = data.filter((event) => event.endUser.username === currUsername);        
+        const filteredEvents = data.filter((event) => event.endUser && event.endUser.username === currUsername);
         setEvents(filteredEvents);
       });
     };

@@ -14,22 +14,23 @@ function RegisterPage() {
   const { username, password, email } = user;
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [errorMessages, setErrorMessages] = useState('');
-  const [formattedError, setFormattedErrors] = useState('');
-  const [fieldName, setFieldName] = useState('');
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
-  const handleRegister = () => {
+  const handleRegister = (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
     // Make the registration API call
     axios.post('http://localhost:8080/api/auth/register', user, {
       headers: { 'Content-Type': 'application/json' },
     })
       .then((res) => {
         // Assuming the registration was successful, log in the user
-        login();
+        console.log("inside handleregister .then (res)")
+        sessionStorage.setItem('username', user.username);
+        login(user);
         console.log('User registered and authenticated');
         navigate('/'); // Redirect to the home page or another route
       })
@@ -38,32 +39,18 @@ function RegisterPage() {
           console.error('Registration failed with status code', error.response.status);
           console.error('Error details:', error.response.data);
 
-          // Check if error.response.data is an array
-          const errorMessages = Array.isArray(error.response.data)
-            ? error.response.data
-            : [error.response.data];
-
-          // Modify the error message format
-          const formattedError = errorMessages
-            .map(errorMessage => {
-              // Use RegExp to remove "register.request." and trim the string
-              return errorMessage.replace(/register\.request\./g, "").trim();
-            })
-            .join(', ');
-
-          setError(formattedError);
+          // Handle other error scenarios
         } else {
           console.error('Error occurred:', error.message);
         }
       });
-
   };
 
   return (
     <div>
       <Typography variant="h4">Register</Typography>
 
-      <form>
+      <form onSubmit={handleRegister}>
         <div>
           <TextField
             label="Username"
@@ -98,7 +85,7 @@ function RegisterPage() {
           />
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <Button variant="contained" color="primary" onClick={handleRegister}>
+        <Button variant="contained" color="primary" type="submit">
           Register
         </Button>
       </form>

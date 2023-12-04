@@ -189,20 +189,6 @@ public class Event {
         this.indoorEvent = indoorEvent;
     }
 
-    /*
-     * @Override
-     * public String toString() {
-     * return "Event [eventId = " + eventId + " eventName = " + eventName +
-     * " date = " + date + " description = " + description + " price = " + price +
-     * "]";
-     * }
-     
-    * @Override
-    * public String toString() {
-    *     return "Event [eventId = " + eventId + " eventName = " + eventName + " date = " + date + " description = "
-    *             + description + " price = " + price + ", location=" + location + "]";
-    * }
-    */
     @Override
     public String toString() {
         return "Event [eventId = " + eventId + " eventName = " + eventName + " startDate = " + startDate + " endDate = " + endDate+ " description = "

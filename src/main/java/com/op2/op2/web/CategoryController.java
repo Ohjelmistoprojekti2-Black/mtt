@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.op2.op2.domain.Category;
 import com.op2.op2.domain.CategoryRepository;
-// import org.springframework.web.bind.annotation.RequestParam;
 import com.op2.op2.domain.Event;
 
 import jakarta.validation.Valid;

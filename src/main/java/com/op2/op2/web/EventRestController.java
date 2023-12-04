@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,11 +68,6 @@ public class EventRestController {
         Optional <EndUser> user = userRepo.findByUsername(authenticationToken.getPrincipal().toString());
         newEvent.setEndUser(user.get());
          return eventRepository.save(newEvent);
-        /*try{
-        return eventRepository.save(newEvent);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Couldn't create new event");
-        }*/
     }
 
     @DeleteMapping({"/events/delete/{eventId}"})

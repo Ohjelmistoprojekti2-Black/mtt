@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-// import org.springframework.web.bind.annotation.PathVariable;
 
 import com.op2.op2.domain.Event;
 import com.op2.op2.domain.Location;
@@ -39,14 +38,7 @@ public class LocationController {
         model.addAttribute("newlocation", new Location());
         return "addlocation";
     }
- /*
- //Edit location
- @GetMapping("/editLocation/{id}")
- public String editLocation(@PathVariable("id") Long locationId, Model model){
-     model.addAttribute("editLocation", locationRepository.findById(locationId));
-     return "addlocation";
- }
- */
+
     //Save location
     @PostMapping("/saveLocation")
     public String saveLocation(@Valid @ModelAttribute("newlocation") Location location, BindingResult bindingResult,

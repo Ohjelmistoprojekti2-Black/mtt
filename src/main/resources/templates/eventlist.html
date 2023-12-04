@@ -33,6 +33,7 @@
                     <th>City</th>
                     <th>Category</th>
                     <th>Indoor Event</th>
+                    <th>Created by user</th>
                     <th></th>
                 </tr>
             </thead>
@@ -53,10 +54,13 @@
                     </td>
                     <td>
                         <span th:if="${event.category != null}"
-                        th:text="${event.category.categoryName}"></span>
+                        th:text="${event.category}"></span>
                     </td>
 
                     <td th:text="${event.indoorEvent ? 'Yes' : 'No'}"></td>
+                    <td> <span th:if="${event.endUser != null}"
+                        th:text="${event.endUser.username}"></span>
+                    </td>
                     
                     <td>
                         <form th:action="@{/deleteEvent/{eventId}(eventId=${event.eventId})}" method="get"

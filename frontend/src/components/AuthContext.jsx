@@ -16,28 +16,24 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (user) => {  // Accept user as a parameter in the login function
-    console.log("called login in authcontext");
-    // Perform your authentication logic   
-    axios
-      .post('http://localhost:8080/api/auth/login', user, {
+  const login = async (user) => {
+    try {
+      const res = await axios.post('http://localhost:8080/api/auth/login', user, {
         headers: { 'Content-Type': 'application/json' },
-      })
-      .then((res) => {
-        const jwtToken = res.headers.authorization;
-        console.log("inside .then (res)");
-        if (jwtToken !== null) {
-          sessionStorage.setItem('jwt', jwtToken);
-          sessionStorage.setItem('username', user.username);
-          setAuthenticated(true);          
-          console.log("jwt token was !== null session storage set, navigated etc.");
-        }
-      })
-      .catch((error) => {
-        // Handle login failure
-        console.log("error in login", error);
       });
+
+      const jwtToken = res.headers.authorization;
+      if (jwtToken !== null) {
+        sessionStorage.setItem('jwt', jwtToken);
+        sessionStorage.setItem('username', user.username);
+        setAuthenticated(true);
+      }
+    } catch (error) {
+      console.log("error in login", error);
+      throw error;
+    }
   };
+
 
   const logout = () => {
     // Perform your logout logic

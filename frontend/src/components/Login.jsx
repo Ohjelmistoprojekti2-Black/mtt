@@ -20,11 +20,19 @@ function LoginPage() {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
-  const handleLogin = () => {
-    login(user);
-    navigate('/');
+  const handleLogin = async () => {
+    try {
+      await login(user);
+      navigate('/');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setError('Invalid username or password');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+        console.error('Error in login:', error);
+      }
+    }
   };
-
   const handleFormSubmit = (event) => {
     event.preventDefault(); // Prevents the default form submission
     handleLogin();
@@ -33,7 +41,6 @@ function LoginPage() {
   return (
     <div>
       <Typography variant="h4">Login</Typography>
-      {error && <Typography color="error">{error}</Typography>}
 
       <form onSubmit={handleFormSubmit}>
         <div>
@@ -58,7 +65,7 @@ function LoginPage() {
             onChange={handleChange}
           />
         </div>
-
+        {error && <Typography color="error">{error}</Typography>}
         <Button type="submit" variant="contained" color="primary">
           Login
         </Button>

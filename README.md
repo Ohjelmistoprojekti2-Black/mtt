@@ -1,4 +1,5 @@
 [![CI](https://github.com/Ohjelmistoprojekti2-Black/mtt/actions/workflows/ci.yml/badge.svg)](https://github.com/Ohjelmistoprojekti2-Black/mtt/actions/workflows/ci.yml)
+[![(YouTube)](https://img.shields.io/youtube/views/GJsMSL9rcRw)](https://www.youtube.com/watch?v=GJsMSL9rcRw)
 
 # "Mitä tänään tehtäisiin?"
 
